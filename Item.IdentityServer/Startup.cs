@@ -52,17 +52,6 @@ namespace Item.IdentityServer
 
             services.AddControllers();
 
-            //配置认证服务
-            services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
-            {
-                // 意思是：直接相信"http://localhost:5000"的认证，而不用再直接实现一个认证了
-                options.Authority = "http://localhost:5000";
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateAudience = false
-                };
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,10 +68,6 @@ namespace Item.IdentityServer
 
             app.UseRouting();
 
-            // 先认证
-            app.UseAuthentication();
-            // 后授权
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
